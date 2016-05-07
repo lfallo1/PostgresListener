@@ -1,0 +1,10 @@
+		<div>
+			<p>- From the MyGene2 team</p>
+			<p>MyGene2 - Uniting families for sharing and discovery</p>
+			<p><a style="color: #23AFE5" href="${emailConfig.baseUrl}">${emailConfig.baseUrl}</a></p>
+			<p><a style="color: #23AFE5" href="mailto:${emailConfig.mygene2email}?Subject=MyGene2%20question">${emailConfig.mygene2email}</a></p>
+			<br>
+			<img src="cid:logo" alt="mygene2logo.png" style="margin-top: -15px; width: 150px;" />
+		</div>
+    </body>
+</html>

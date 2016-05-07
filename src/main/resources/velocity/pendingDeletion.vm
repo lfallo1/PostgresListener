@@ -1,0 +1,10 @@
+<p style="line-height: 1.4">Hello ${emailConfig.name},</p>
+<p style="line-height: 1.4">We notice that you signed up for an account at <a style="color: #23AFE5" href="${emailConfig.baseUrl}">${emailConfig.baseUrl}</a> on ${emailConfig.dateCreated}, but have not contributed any information.
+</p>
+<p style="line-height: 1.4">
+	This is a heads up that your account will be automatically deleted in 7 days if you have not yet contributed.
+</p>
+<p style="line-height: 1.4">
+	We're happy to help if you have any questions - just email <a style="color: #23AFE5" href="mailto:${emailConfig.mygene2email}?Subject=MyGene2%20question" target="_top">${emailConfig.mygene2email}</a> or visit <a style="color: #23AFE5" href="${emailConfig.baseUrl}faq">${emailConfig.baseUrl}faq</a>
+</p>
+<p style="line-height: 1.4">Thanks for your interest!</p>
