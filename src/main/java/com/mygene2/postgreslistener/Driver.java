@@ -11,18 +11,25 @@ import org.postgresql.PGNotification;
 
 public class Driver {
 
+	private static final String DATABASE_DRIVER_NAME = "org.postgresql.Driver";
+	private static final String POSTGRES_NOTIFIER = "postgres.notifier";
+	private static final String JDBC_PASSWORD = "jdbc.password";
+	private static final String JDBC_USERNAME = "jdbc.username";
+	private static final String JDBC_URL = "jdbc.url";
+	private static final String DRIVER_PROPERTIES = "driver.properties";
+
 	public static void main(String args[]) throws Exception {
 		
 		//load properties
 		Properties props = new Properties();
-		props.load(Driver.class.getClassLoader().getResourceAsStream("driver.properties"));
-		String url = props.getProperty("jdbc.url");
-		String username = props.getProperty("jdbc.username");
-		String password = props.getProperty("jdbc.password");
-		String notifierKey = props.getProperty("postgres.notifier");
+		props.load(Driver.class.getClassLoader().getResourceAsStream(DRIVER_PROPERTIES));
+		String url = props.getProperty(JDBC_URL);
+		String username = props.getProperty(JDBC_USERNAME);
+		String password = props.getProperty(JDBC_PASSWORD);
+		String notifierKey = props.getProperty(POSTGRES_NOTIFIER);
 		
 		// Create connection, one for the notifier for the listener
-		Class.forName("org.postgresql.Driver");
+		Class.forName(DATABASE_DRIVER_NAME);
 		Connection lConn = DriverManager.getConnection(url, username, password);
 
 		// Create thread on which notifications are received
