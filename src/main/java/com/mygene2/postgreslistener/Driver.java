@@ -51,7 +51,7 @@ public class Driver {
 		EmailService emailService = new EmailService(config, velocityEngine);
 		EmailConfigFactory emailConfigFactory = new EmailConfigFactory(config);
 
-		// Create thread on which notifications are received
+		// Create threads on which notifications are received
 		MyGeneInactiveAccountListener listener = new MyGeneInactiveAccountListener(lConn, notifierKey, mapper, emailService, emailConfigFactory);
 		listener.start();
 	}
@@ -87,7 +87,7 @@ class MyGeneInactiveAccountListener extends Thread {
 
 	public void run() {
 		
-		//just keep running, wilfred
+		//just keep runnin', wilfred... just keep on runnin'
 		while (true) {
 			try {
 				// issue a dummy query to contact the backend (required to receive any pending notifications) 
