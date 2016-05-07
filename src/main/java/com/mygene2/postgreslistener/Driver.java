@@ -89,8 +89,10 @@ class Listener extends Thread {
 				// wait a while before checking again for new notifications
 				Thread.sleep(500);
 			} catch (SQLException sqle) {
+				System.out.println("PostgresListener stopped!");
 				sqle.printStackTrace();
 			} catch (InterruptedException ie) {
+				System.out.println("PostgresListener stopped!");
 				ie.printStackTrace();
 			}
 		}
