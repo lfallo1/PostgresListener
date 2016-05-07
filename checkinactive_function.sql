@@ -1,6 +1,7 @@
 -- create a cron job that runs once a day, and executes the uw.checkinactive() function
--- if an account is 173 days old (1 week shy of 6 months), it emits a 'mygeneinactive' notification with one parameter (the account username).
--- a script on the server that is always executing and listening for this event, handles this by sending an email to that user 
+-- this function loops through each account. if an account is exactly 173 days old (1 week shy of 6 months), 
+-- it emits a 'mygeneinactive' notification with one parameter (the account username).
+-- a java app on the server that is always executing and listening for this event, handles it by sending an email to that user.
 
 CREATE OR REPLACE FUNCTION uw.checkinactive()
   RETURNS integer AS
