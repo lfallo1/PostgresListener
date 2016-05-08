@@ -1,6 +1,0 @@
-//Instructions for editing properties file inside jar
-vim yourjar.jar
-scroll to driver.properties and hit ENTER
-type ‘i’ to enter INSERT MODE (if not already in mode) and make your changes
-Ctrl + o to exit INSERT mode, and :wq to save changes and quit (returns to vim directory tree)
-Ctrl + o again (if still in insert mode), and :q to quit vim
