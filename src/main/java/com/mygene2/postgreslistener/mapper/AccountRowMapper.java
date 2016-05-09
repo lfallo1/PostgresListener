@@ -13,6 +13,7 @@ public class AccountRowMapper {
     public static final String FIRSTNAME_COL = "firstname";
     public static final String LASTNAME_COL = "lastname";
     public static final String DATE_CREATED_COL = "datecreated";
+    public static final String USERROLEID_COL = "userroleid";
 
     public Account mapRow(ResultSet rs) throws SQLException {
 
@@ -23,6 +24,9 @@ public class AccountRowMapper {
         account.setFirstName(rs.getString(FIRSTNAME_COL));
         account.setLastName(rs.getString(LASTNAME_COL));
         account.setDateCreated(rs.getDate(DATE_CREATED_COL));
+        
+        Integer role = rs.getInt(USERROLEID_COL);
+        account.setIsClinician(role != 1);
 
         return account;
     }

@@ -1,0 +1,7 @@
+<p style="line-height: 1.4">Hello ${emailConfig.name},</p>
+<p style="line-height: 1.4">This is a notice that your account has been deleted due to not becoming a contributor after 6 months.  If you would like to sign up again, you can do so here: <a style="color: #23AFE5" href="${emailConfig.baseUrl}createaccount">MyGene2 Signup</a>
+</p>
+<p style="line-height: 1.4">
+	We're happy to help if you have any questions - just email <a style="color: #23AFE5" href="mailto:${emailConfig.mygene2email}?Subject=MyGene2%20question" target="_top">${emailConfig.mygene2email}</a> or visit <a style="color: #23AFE5" href="${emailConfig.baseUrl}faq">${emailConfig.baseUrl}faq</a>
+</p>
+<p style="line-height: 1.4">Thanks for your interest!</p>

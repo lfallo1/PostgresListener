@@ -24,15 +24,15 @@ public class EmailConfigFactory {
 	 * @param account
 	 * @return
 	 */
-	public EmailConfig generateForMyGeneInactiveAccountEmail(Account account){
+	public EmailConfig generateWithBasicAccountInfo(Account account, String template, String subject){
 		EmailConfig emailConfig = new EmailConfig();
 		emailConfig.setBaseUrl(config.getBaseUrl());
 		emailConfig.setFrom(config.getMygene2email());
 		emailConfig.setMygene2email(config.getMygene2email());
 		emailConfig.setName(account.getFirstName());
 		emailConfig.setRecipient(account);
-		emailConfig.setSubject("Account will be deleted in 7 days");
-		emailConfig.setTemplate("velocity/pendingDeletion.vm");
+		emailConfig.setSubject(subject);
+		emailConfig.setTemplate(template);
 		
 		//ex. July 1, 2015
 		SimpleDateFormat formatter = new SimpleDateFormat("MMMM d, yyyy");

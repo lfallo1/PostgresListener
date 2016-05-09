@@ -18,17 +18,20 @@ public class Account {
 	private String firstName;
 	private String lastName;
 	private Date dateCreated;
+	private Boolean isClinician;
 
 	public Account() {
 	}
 
-	public Account(Integer id, String email, String username, String firstName, String lastName, Date dateCreated) {
+	public Account(Integer id, String email, String username, String firstName,
+			String lastName, Date dateCreated, Boolean isClinician) {
 		this.id = id;
 		this.email = email;
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dateCreated = dateCreated;
+		this.isClinician = isClinician;
 	}
 
 	public Integer getId() {
@@ -77,6 +80,14 @@ public class Account {
 
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
+	}
+
+	public Boolean getIsClinician() {
+		return isClinician;
+	}
+
+	public void setIsClinician(Boolean isClinician) {
+		this.isClinician = isClinician;
 	}
 
 }
