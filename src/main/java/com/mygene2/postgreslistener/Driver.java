@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.util.Properties;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import com.mygene2.postgreslistener.listeners.MyGeneAccountDeletedListener;
 import com.mygene2.postgreslistener.listeners.MyGeneInactiveAccountListener;
@@ -19,6 +20,8 @@ public class Driver {
 	private static final String DATABASE_DRIVER_NAME = "org.postgresql.Driver";
 	private static final String NOTIFIER_ACCOUNT_INACTIVE = "postgres.accountinactivenotifier";
 	private static final String NOTIFIER_ACCOUNT_DELETED = "postgres.accountdeletednotifier";
+	private static final String SMTP_HOST = "smtp.host";
+	private static final String SMTP_PORT = "smtp.port";
 	private static final String JDBC_PASSWORD = "jdbc.password";
 	private static final String JDBC_USERNAME = "jdbc.username";
 	private static final String JDBC_URL = "jdbc.url";
@@ -33,6 +36,8 @@ public class Driver {
 		String url = props.getProperty(JDBC_URL);
 		String username = props.getProperty(JDBC_USERNAME);
 		String password = props.getProperty(JDBC_PASSWORD);
+		String emailHost = props.getProperty(SMTP_HOST);
+		Integer emailPort = Integer.parseInt(props.getProperty(SMTP_PORT));
 		String accountInactiveNotifierKey = props.getProperty(NOTIFIER_ACCOUNT_INACTIVE);
 		String accountDeletedNotifierKey = props.getProperty(NOTIFIER_ACCOUNT_DELETED);
 		in.close();
@@ -44,8 +49,15 @@ public class Driver {
 		//load dependencies
 		AccountRowMapper mapper = new AccountRowMapper();
 		Config config = new Config();
+		
 		VelocityEngine velocityEngine = new MyGeneVelocityEngine();
-		EmailService emailService = new EmailService(config, velocityEngine);
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost(emailHost);
+		mailSender.setPort(emailPort);
+		mailSender.setUsername("");
+		mailSender.setPassword("");
+		
+		EmailService emailService = new EmailService(config, velocityEngine, mailSender);
 		EmailConfigFactory emailConfigFactory = new EmailConfigFactory(config);
 
 		// Create threads on which notifications are received

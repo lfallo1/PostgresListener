@@ -1,18 +1,19 @@
 package com.mygene2.postgreslistener.service;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.velocity.app.VelocityEngine;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
-import com.mygene2.postgreslistener.Driver;
 import com.mygene2.postgreslistener.model.Config;
 import com.mygene2.postgreslistener.model.EmailConfig;
-import com.sendgrid.SendGrid;
-import com.sendgrid.SendGridException;
 
 /**
  * Email Service
@@ -26,9 +27,12 @@ public class EmailService {
 
     private VelocityEngine velocityEngine;
     
-    public EmailService(Config config, VelocityEngine velocityEngine){
+    private JavaMailSenderImpl mailSender;
+    
+    public EmailService(Config config, VelocityEngine velocityEngine, JavaMailSenderImpl mailSender){
     	this.config = config;
     	this.velocityEngine = velocityEngine;
+    	this.mailSender = mailSender;
     }
 
     /**
@@ -38,10 +42,6 @@ public class EmailService {
      * @throws EmailException
      */
     public void sendMail(EmailConfig emailConfig) {
-    	String apikey = this.config.decryptProperty(this.config.getApikey());
-        SendGrid sendgrid = new SendGrid(apikey);
-        InputStream imageInputStream = null;
-        SendGrid.Email email = new SendGrid.Email();
         try {
 
             //setup additional email config properties
@@ -49,14 +49,14 @@ public class EmailService {
             emailConfig.setFrom(this.config.getMygene2email());
             emailConfig.setMygene2email(this.config.getMygene2email());
 
+            //setup mime messagehelper
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+            
             //set recipient / sender / subject
-            email.addTo(emailConfig.getRecipient().getEmail());
-            email.setFrom(emailConfig.getFrom());
-            email.setSubject(emailConfig.getSubject());
-            //attach the logo
-            imageInputStream = Driver.class.getClassLoader().getResourceAsStream("static/MyGene2Logo.PNG");
-            email.addAttachment("mygene2logo", imageInputStream);
-            email.addContentId("mygene2logo", "logo");
+            helper.setTo(emailConfig.getRecipient().getEmail());
+            helper.setFrom(emailConfig.getFrom());
+            helper.setSubject(emailConfig.getSubject());
 
             //create the model for view
             Map<String, Object> model = new HashMap<>();
@@ -67,21 +67,14 @@ public class EmailService {
             text += VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, emailConfig.getTemplate(), "UTF-8", model);
             text += VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "velocity/signature.vm", "UTF-8", model);
             
-            email.setHtml(text);
+            helper.setText(text, true);
+            
+            //attach the logo
+            helper.addInline("logo", new ClassPathResource("static/MyGene2Logo.PNG"));
 
-            sendgrid.send(email);
-        } catch (SendGridException | IOException ex) {
+            mailSender.send(mimeMessage);
+        } catch (MessagingException ex) {
             ex.printStackTrace();
-        } finally{
-        	
-        	//close input stream
-        	if(imageInputStream != null){
-        		try {
-					imageInputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-        	}
         }
     }
 

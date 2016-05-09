@@ -7,7 +7,7 @@ Ctrl + o again (if still in insert mode), and :q to quit vim
 
 
 --commands for starting / stopping process--
-# start process (must be in same directory as jar)
+# start process (must be in same directory as jar) in background
 nohup java -jar PostgresListener-0.0.1-SNAPSHOT-jar-with-dependencies.jar &
 
 # kill process
